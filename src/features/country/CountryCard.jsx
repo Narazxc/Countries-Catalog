@@ -1,4 +1,4 @@
-function Card({
+function CountryCard({
   officialName,
   nativeName,
   altSpellings,
@@ -50,4 +50,4 @@ function Card({
   );
 }
 
-export default Card;
+export default CountryCard;

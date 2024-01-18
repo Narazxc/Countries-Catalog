@@ -1,46 +1,55 @@
 import { useEffect, useState } from "react";
 import Country from "./Country";
+import Loader from "../../ui/Loader";
 
-function CountryList() {
+function CountryList({ query }) {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(function () {
-    const controller = new AbortController();
+  const url = !query
+    ? "https://restcountries.com/v3.1/all"
+    : "https://restcountries.com/v3.1/name/";
 
-    async function fetchCountries() {
-      try {
-        setIsLoading(true);
-        setError("");
-        const res = await fetch(`https://restcountries.com/v3.1/all`, {
-          signal: controller.signal,
-        });
+  useEffect(
+    function () {
+      const controller = new AbortController();
 
-        if (!res.ok)
-          throw new Error("Something when wrong with fetching movies");
+      async function fetchCountries() {
+        try {
+          setIsLoading(true);
+          setError("");
 
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Countries not found");
-        setCountries(data);
-        console.log(data);
-        setError("");
-      } catch (err) {
-        if (err.name !== "AbortError") {
-          console.log(err.message);
-          setError(err.message);
+          const res = await fetch(`${url}/${query}`, {
+            signal: controller.signal,
+          });
+
+          if (!res.ok)
+            throw new Error("Something when wrong with fetching movies");
+
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Countries not found");
+          setCountries(data);
+          console.log(data);
+          setError("");
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            console.log(err.message);
+            setError(err.message);
+          }
+        } finally {
+          setIsLoading(false);
         }
-      } finally {
-        setIsLoading(false);
       }
-    }
 
-    fetchCountries();
+      fetchCountries();
 
-    return function () {
-      controller.abort();
-    };
-  }, []);
+      return function () {
+        controller.abort();
+      };
+    },
+    [url, query]
+  );
 
   if (isLoading) return <div>Loading...</div>;
 

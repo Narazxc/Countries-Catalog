@@ -1,4 +1,4 @@
-import Card from "../../ui/Card";
+import CountryCard from "./CountryCard";
 
 function Country({ country }) {
   let firstPropertyOfNativeName;
@@ -31,7 +31,7 @@ function Country({ country }) {
 
   return (
     <>
-      <Card
+      <CountryCard
         officialName={country.name?.official}
         nativeName={firstPropertyOfNativeName?.official}
         altSpellings={country?.altSpellings}
