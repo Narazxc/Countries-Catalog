@@ -1,16 +1,26 @@
 import { useState } from "react";
 import CountryList from "./features/country/CountryList";
 import Search from "./ui/Search";
+import SortBy from "./ui/SortBy";
+import { BrowserRouter } from "react-router-dom";
 
 // https://restcountries.com/v3.1/all
 function App() {
   const [query, setQuery] = useState("");
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Search query={query} setQuery={setQuery} />
-      <CountryList query={query} />
-    </div>
+    <BrowserRouter>
+      <div className="flex flex-col items-center justify-center">
+        <Search query={query} setQuery={setQuery} />
+        <SortBy
+          options={[
+            { value: "asc", label: "Sort by name (A-Z)" },
+            { value: "desc", label: "Sort by name (Z-A)" },
+          ]}
+        />
+        <CountryList query={query} />
+      </div>
+    </BrowserRouter>
   );
 }
 

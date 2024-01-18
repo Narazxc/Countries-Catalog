@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
-import Country from "./Country";
-import { useCountries } from "./useCountries";
-import { useSearchParams } from "react-router-dom";
 
-function CountryList({ query }) {
-  // const { countries, isLoading, error } = useCountries(query);
-  const [searchParams, setSearchParams] = useSearchParams();
-
+export function useCountries(query) {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const url = !query
-    ? "https://restcountries.com/v3.1/all"
-    : `https://restcountries.com/v3.1/name/`;
 
   useEffect(
     function () {
@@ -25,9 +15,11 @@ function CountryList({ query }) {
           setError("");
 
           const res = await fetch(
-            !query
-              ? "https://restcountries.com/v3.1/all"
-              : `https://restcountries.com/v3.1/name/${query}`,
+            `${
+              !query
+                ? "https://restcountries.com/v3.1/all"
+                : `https://restcountries.com/v3.1/name/${query}`
+            }`,
             {
               signal: controller.signal,
             }
@@ -57,26 +49,8 @@ function CountryList({ query }) {
         controller.abort();
       };
     },
-    [url, query]
+    [query]
   );
 
-  if (isLoading) return <div>Loading...</div>;
-
-  // SORT
-  const sortBy = searchParams.get("sortBy") || "asc";
-  console.log(sortBy);
-  const modifier = sortBy === "asc" ? 1 : -1;
-  const sortedCountries = countries.sort(
-    (a, b) => a.name?.common.localeCompare(b.name?.common) * modifier
-  );
-
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {sortedCountries.map((country) => (
-        <Country country={country} key={country.name.official} />
-      ))}
-    </div>
-  );
+  return { countries, isLoading, error };
 }
-
-export default CountryList;
