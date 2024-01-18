@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Country from "./Country";
 import { useCountries } from "./useCountries";
 import { useSearchParams } from "react-router-dom";
+import ErrorMessage from "../../ui/ErrorMessage";
 
 function CountryList({ query }) {
   // const { countries, isLoading, error } = useCountries(query);
@@ -33,13 +34,12 @@ function CountryList({ query }) {
             }
           );
 
-          if (!res.ok)
-            throw new Error("Something when wrong with fetching movies");
+          if (!res.ok) throw new Error("Countries not found");
 
           const data = await res.json();
           if (data.Response === "False") throw new Error("Countries not found");
           setCountries(data);
-          console.log(data);
+          // console.log(data);
           setError("");
         } catch (err) {
           if (err.name !== "AbortError") {
@@ -64,7 +64,6 @@ function CountryList({ query }) {
 
   // SORT
   const sortBy = searchParams.get("sortBy") || "asc";
-  console.log(sortBy);
   const modifier = sortBy === "asc" ? 1 : -1;
   const sortedCountries = countries.sort(
     (a, b) => a.name?.common.localeCompare(b.name?.common) * modifier
@@ -72,9 +71,12 @@ function CountryList({ query }) {
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {sortedCountries.map((country) => (
-        <Country country={country} key={country.name.official} />
-      ))}
+      {!isLoading &&
+        !error &&
+        sortedCountries.map((country) => (
+          <Country country={country} key={country.name.official} />
+        ))}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }
