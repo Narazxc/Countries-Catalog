@@ -1,6 +1,13 @@
+import { useState } from "react";
 import CountryCard from "./CountryCard";
 
 function Country({ country }) {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  function handleOpenModal() {
+    setIsOpenModal((isOpenModal) => !isOpenModal);
+  }
+
   let firstPropertyOfNativeName;
 
   let countryCallingCode;
@@ -26,6 +33,8 @@ function Country({ country }) {
   return (
     <>
       <CountryCard
+        country={country}
+        isOpenModal={isOpenModal}
         officialName={country.name?.official}
         nativeName={firstPropertyOfNativeName?.official}
         altSpellings={country?.altSpellings}
@@ -33,6 +42,7 @@ function Country({ country }) {
         cca2={country?.cca2}
         cca3={country?.cca3}
         countryCallingCode={countryCallingCode}
+        onOpenModal={handleOpenModal}
       />
     </>
   );

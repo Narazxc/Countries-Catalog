@@ -9,6 +9,8 @@ function CountryList({ query }) {
   const { countries, isLoading, error } = useCountries(query);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // console.log(countries);
+
   // if there any query return back to page 1
   useEffect(
     function () {
