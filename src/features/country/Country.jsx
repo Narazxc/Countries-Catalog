@@ -5,14 +5,6 @@ function Country({ country }) {
 
   let countryCallingCode;
 
-  //   if (country.idd.suffixes) {
-  //     countryCallingCode = country?.idd?.root + "-" + country?.idd?.suffixes?.[0];
-  //   } else {
-  //     countryCallingCode = country?.idd?.root + country;
-  //   }
-
-  // console.log(country.name?.official);
-
   countryCallingCode =
     country.idd?.suffixes?.[0] === ""
       ? country.idd?.root

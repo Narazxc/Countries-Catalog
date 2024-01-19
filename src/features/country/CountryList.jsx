@@ -1,64 +1,29 @@
-import { useEffect, useState } from "react";
 import Country from "./Country";
 import { useCountries } from "./useCountries";
 import { useSearchParams } from "react-router-dom";
 import ErrorMessage from "../../ui/ErrorMessage";
+import { PAGE_SIZE } from "../../utils/constants";
+import { useEffect } from "react";
 
 function CountryList({ query }) {
-  // const { countries, isLoading, error } = useCountries(query);
+  const { countries, isLoading, error } = useCountries(query);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [countries, setCountries] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const url = !query
-    ? "https://restcountries.com/v3.1/all"
-    : `https://restcountries.com/v3.1/name/`;
-
+  // if there any query return back to page 1
   useEffect(
     function () {
-      const controller = new AbortController();
-
-      async function fetchCountries() {
-        try {
-          setIsLoading(true);
-          setError("");
-
-          const res = await fetch(
-            !query
-              ? "https://restcountries.com/v3.1/all"
-              : `https://restcountries.com/v3.1/name/${query}`,
-            {
-              signal: controller.signal,
-            }
-          );
-
-          if (!res.ok) throw new Error("Countries not found");
-
-          const data = await res.json();
-          if (data.Response === "False") throw new Error("Countries not found");
-          setCountries(data);
-          // console.log(data);
-          setError("");
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            console.log(err.message);
-            setError(err.message);
-          }
-        } finally {
-          setIsLoading(false);
-        }
+      if (query) {
+        // modify page param in url
+        searchParams.set("page", 1);
+        setSearchParams(searchParams);
       }
-
-      fetchCountries();
-
-      return function () {
-        controller.abort();
-      };
     },
-    [url, query]
+    [query, setSearchParams, searchParams]
   );
+
+  // const url = !query
+  //   ? "https://restcountries.com/v3.1/all"
+  //   : `https://restcountries.com/v3.1/name/`;
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -69,11 +34,22 @@ function CountryList({ query }) {
     (a, b) => a.name?.common.localeCompare(b.name?.common) * modifier
   );
 
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
+  // PAGINATION
+  let paginatedCountries;
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE;
+
+    paginatedCountries = sortedCountries.slice(from, to);
+  }
+
   return (
     <div className="grid grid-cols-4 gap-4">
       {!isLoading &&
         !error &&
-        sortedCountries.map((country) => (
+        paginatedCountries.map((country) => (
           <Country country={country} key={country.name.official} />
         ))}
       {error && <ErrorMessage message={error} />}
