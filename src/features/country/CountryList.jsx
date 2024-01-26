@@ -20,7 +20,7 @@ function CountryList({ query }) {
         setSearchParams(searchParams);
       }
     },
-    [query, setSearchParams, searchParams]
+    [query, setSearchParams, searchParams],
   );
 
   // const url = !query
@@ -33,7 +33,7 @@ function CountryList({ query }) {
   const sortBy = searchParams.get("sortBy") || "asc";
   const modifier = sortBy === "asc" ? 1 : -1;
   const sortedCountries = countries.sort(
-    (a, b) => a.name?.common.localeCompare(b.name?.common) * modifier
+    (a, b) => a.name?.common.localeCompare(b.name?.common) * modifier,
   );
 
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
@@ -48,7 +48,7 @@ function CountryList({ query }) {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-4 px-10 pb-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {!isLoading &&
         !error &&
         paginatedCountries.map((country) => (

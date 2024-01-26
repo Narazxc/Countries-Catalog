@@ -10,7 +10,11 @@ function SortBy({ options, value }) {
   }
 
   return (
-    <select value={sortBy} onChange={handleChange}>
+    <select
+      className=" rounded-lg outline-none outline-offset-2 hover:shadow-lg focus:outline-pink-500"
+      value={sortBy}
+      onChange={handleChange}
+    >
       {options.map((option) => (
         <option value={option.value} key={option.value}>
           {option.label}

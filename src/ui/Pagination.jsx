@@ -32,9 +32,13 @@ function Pagination({ count }) {
 
   if (pageCount <= 1) return null;
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0 });
+  };
+
   return (
     <div className="w-full">
-      <div className="fixed bottom-0 right-0 left-0 flex items-center lowercase justify-between bg-stone-800 px-4 py-4 text-sm text-stone-200 sm:px-6 md:text-base">
+      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between bg-stone-800 px-4 py-4 text-sm text-stone-200 sm:px-6 md:text-base">
         <p>
           Showing{" "}
           <span className="font-bold">{(currentPage - 1) * PAGE_SIZE + 1}</span>{" "}
@@ -47,7 +51,10 @@ function Pagination({ count }) {
 
         <div className="flex gap-3">
           <button
-            onClick={prevPage}
+            onClick={() => {
+              prevPage();
+              scrollToTop();
+            }}
             disabled={currentPage === 1}
             className={`flex items-center ${
               currentPage === 1 ? "cursor-not-allowed" : ""
@@ -56,7 +63,10 @@ function Pagination({ count }) {
             <HiChevronLeft /> <span>Previous</span>
           </button>
           <button
-            onClick={nextPage}
+            onClick={() => {
+              nextPage();
+              scrollToTop();
+            }}
             disabled={currentPage === pageCount}
             className={`flex items-center ${
               currentPage === pageCount ? "cursor-not-allowed" : ""

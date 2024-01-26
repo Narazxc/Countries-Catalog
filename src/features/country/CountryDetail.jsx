@@ -49,7 +49,7 @@ function CountryDetail({ country }) {
         <span>Coat of Arms:</span>{" "}
         {country.coatOfArms && (
           <img
-            className="w-12 h-12"
+            className="h-12 w-12"
             src={country.coatOfArms.png}
             alt={country.name.official}
           />
@@ -149,7 +149,7 @@ function CountryDetail({ country }) {
       <div className="flex gap-2">
         <div>Timezones: </div>
         {country.timezones && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2">
             {country.timezones.map((timezone, index) => (
               <span key={index} className="bg-pink-100">
                 {timezone}

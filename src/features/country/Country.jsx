@@ -16,8 +16,8 @@ function Country({ country }) {
     country.idd?.suffixes?.[0] === ""
       ? country.idd?.root
       : country.idd?.suffixes?.[0].length <= 2
-      ? country.idd?.root + country.idd?.suffixes[0]
-      : country.idd?.root + "-" + country.idd?.suffixes?.[0];
+        ? country.idd?.root + country.idd?.suffixes[0]
+        : country.idd?.root + "-" + country.idd?.suffixes?.[0];
 
   const keys = country.name?.nativeName
     ? Object.keys(country.name.nativeName)

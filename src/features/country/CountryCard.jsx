@@ -15,15 +15,15 @@ function CountryCard({
 }) {
   return (
     <>
-      <div className="max-w-sm bg-orange-200 border border-gray-200 rounded-lg shadow ">
-        <div className="w-full h-50">
-          <img className="object-cover w-full h-full" src={image} alt="" />
+      <div className="max-w-sm rounded-lg bg-orange-200 hover:shadow-2xl">
+        <div className="h-50 w-full">
+          <img className="h-full w-full object-cover" src={image} alt="" />
         </div>
 
         <div className="p-5">
           <h5
             onClick={onOpenModal}
-            className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:cursor-pointer hover:text-gray-500"
+            className="mb-2 text-2xl font-bold tracking-tight text-gray-900 hover:cursor-pointer hover:text-gray-500 dark:text-white"
           >
             {officialName}
           </h5>
@@ -39,11 +39,11 @@ function CountryCard({
             <h4>{nativeName}</h4>
           </div>
 
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex flex-wrap gap-1">
             {altSpellings.map((altSpelling, index) => (
               <div
                 key={index}
-                className="bg-blue-100 inline-block rounded-md text-black p-1"
+                className="inline-block rounded-md bg-blue-100 p-1 text-black"
               >
                 {altSpelling}
               </div>

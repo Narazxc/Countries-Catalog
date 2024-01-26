@@ -12,7 +12,8 @@ function Search({ query, setQuery }) {
 
   return (
     <input
-      className="w-3/4 px-[1.1rem] py-[1.6rem] text-2xl justify-self-center outline-none bg-slate-200"
+      className="w-full justify-self-center rounded-lg bg-slate-200 px-[1rem] py-[0.5rem] outline-none outline-offset-2 hover:shadow-lg focus:outline-pink-500"
+      // focus:border-purple-500
       type="text"
       placeholder="Search countries..."
       value={query}
