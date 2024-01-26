@@ -1,3 +1,11 @@
+# Data Source
+
+All countries
+`https://restcountries.com/v3.1/all`
+
+Specific country
+`https://restcountries.com/v3.1/name/{name}`
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
